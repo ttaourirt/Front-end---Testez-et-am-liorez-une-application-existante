@@ -1,0 +1,56 @@
+<div class="card m-3">
+  <h5 class="card-header">{{ editingId ? 'Modifier' : 'Ajouter' }} un étudiant</h5>
+  <div class="card-body">
+    @if (loading) {
+      <div class="alert alert-info">Chargement...</div>
+    }
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Prénom</label>
+        <input
+          type="text"
+          formControlName="firstName"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && controls['firstName'].errors }"
+        />
+        @if (submitted && controls['firstName'].errors?.['required']) {
+          <div class="invalid-feedback">Prénom requis.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Nom</label>
+        <input
+          type="text"
+          formControlName="lastName"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && controls['lastName'].errors }"
+        />
+        @if (submitted && controls['lastName'].errors?.['required']) {
+          <div class="invalid-feedback">Nom requis.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Date de naissance (AAAA-MM-JJ)</label>
+        <input type="date" formControlName="birthDate" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" class="form-control" />
+      </div>
+
+      <div class="text-center">
+        <button class="btn btn-primary mr-1" [disabled]="loading">
+          {{ editingId ? 'Mettre à jour' : 'Créer' }}
+        </button>
+        <a class="btn btn-secondary" routerLink="/students">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>
